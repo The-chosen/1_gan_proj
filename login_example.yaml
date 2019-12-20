@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: <yourname>-login # replace with your preferred log-in node name
+spec:
+  containers:
+  - name: login
+    image: gitlab-registry.nautilus.optiputer.net/yol070/research-containers/research-login-v2
+    workingDir: /ceph/<yourname>
+    imagePullPolicy: Always
+    args: ["sleep", "infinity"]
+    volumeMounts:
+    - mountPath: /ceph
+      name: ceph
+    - mountPath: /dev/shm
+      name: dshm
+  restartPolicy: Never
+  volumes:
+    - name: dshm
+      emptyDir:
+        medium: Memory
+    - name: ceph
+      flexVolume:
+        driver: ceph.rook.io/rook
+        fsType: ceph
+        options:
+          clusterNamespace: rook
+          fsName: nautilusfs
+          path: /ecewcsng
+          mountUser: ecewcsng
+          mountSecret: ceph-fs-secret
+
