@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: yy
+  name: myapp
 spec:
   template:
     spec:
@@ -11,8 +11,8 @@ spec:
         command: ["/bin/bash"]
         args: ["-c", "sleep infinity"]
         volumeMounts:
-        - name: yy-volume
-          mountPath: /yy-volume
+        - name: zichao-volume
+          mountPath: /zichoa-volume
         resources:
           limits:
             memory: 8Gi
@@ -20,14 +20,10 @@ spec:
             nvidia.com/gpu: "1"
           requests:
             memory: 4Gi
-            cpu: "2"
-            nvidia.com/gpu: "1"  
+            cpu: "1"
       restartPolicy: Never
       volumes:
-        - name: yy-volume
+        - name: zichao-volume
           persistentVolumeClaim:
-            claimName: yy-volume
+            claimName: zichao-volume
   backoffLimit: 5
-
-
-
